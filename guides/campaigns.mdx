@@ -1,0 +1,101 @@
+---
+title: "Campaigns"
+description: "How campaigns flow through the Acme Analytics platform"
+icon: "bullhorn"
+---
+
+## What is a campaign?
+
+A campaign represents a measurement study tied to an advertising effort. It tracks ad exposure, collects survey responses, and produces analysis of the campaign's impact on key brand metrics.
+
+## Campaign lifecycle
+
+<Steps>
+<Step title="Creation">
+  A campaign starts in the **Campaign Service**. Users define:
+  - Target audience and demographics
+  - Survey questions (awareness, favorability, intent, etc.)
+  - Ad server integration settings
+  - Flight dates
+</Step>
+
+<Step title="Data collection">
+  The **Data Collector** connects to external ad servers to:
+  - Import creative assets and placement data
+  - Track which users were exposed to ads
+  - Sync delivery metrics
+</Step>
+
+<Step title="Survey distribution">
+  During the campaign flight:
+  - Exposed and control group users receive surveys
+  - Response data flows into the analysis engine
+  - The dashboard shows preliminary results
+</Step>
+
+<Step title="Analysis">
+  The **Analysis Engine** runs statistical tests to determine:
+  - Lift (difference between exposed and control groups)
+  - Statistical significance of results
+  - Demographic breakdowns
+
+  <Tip>
+    Results update automatically as new survey responses arrive. Final results are available after the campaign flight ends.
+  </Tip>
+</Step>
+
+<Step title="Reporting">
+  Final deliverables include:
+  - Interactive dashboard with drill-down capabilities
+  - Auto-generated summary slide decks
+  - Exportable data tables (CSV, Excel)
+</Step>
+</Steps>
+
+## Campaign statuses
+
+| Status | Description |
+|--------|-------------|
+| `DRAFT` | Campaign is being configured, not yet live |
+| `PENDING_REVIEW` | Submitted for internal review |
+| `ACTIVE` | Currently in-flight, collecting data |
+| `PAUSED` | Temporarily halted |
+| `COMPLETED` | Flight ended, final analysis available |
+| `ARCHIVED` | Historical record, read-only |
+
+## Creating a campaign via API
+
+```bash
+curl -X POST https://api.example.com/v1/campaigns \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Q1 Brand Awareness Study",
+    "advertiser": "Example Corp",
+    "startDate": "2026-03-01",
+    "endDate": "2026-03-31",
+    "surveyQuestions": ["awareness", "favorability", "intent"]
+  }'
+```
+
+Response:
+
+```json
+{
+  "id": "camp_abc123",
+  "name": "Q1 Brand Awareness Study",
+  "status": "DRAFT",
+  "createdAt": "2026-02-09T12:00:00Z"
+}
+```
+
+## Related
+
+<CardGroup cols={2}>
+  <Card title="Measurement" icon="chart-line" href="/guides/measurement">
+    How lift metrics are calculated.
+  </Card>
+  <Card title="API reference" icon="code" href="/api-reference/introduction">
+    Full API documentation.
+  </Card>
+</CardGroup>
