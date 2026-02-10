@@ -15,6 +15,7 @@
         "groups": [
           {
             "group": "Getting started",
+            "public": true,
             "pages": [
               "index",
               "quickstart",
@@ -23,6 +24,7 @@
           },
           {
             "group": "Platform",
+            "public": true,
             "pages": [
               "guides/platform-overview",
               "guides/campaigns",
@@ -31,6 +33,7 @@
           },
           {
             "group": "AI tools",
+            "public": true,
             "pages": [
               "ai-tools/cursor",
               "ai-tools/claude-code",
@@ -39,6 +42,7 @@
           },
           {
             "group": "Mintlify features",
+            "public": true,
             "pages": [
               "essentials/settings",
               "essentials/navigation",
@@ -46,6 +50,15 @@
               "essentials/code",
               "essentials/images",
               "essentials/reusable-snippets"
+            ]
+          },
+          {
+            "group": "Internal",
+            "icon": "lock",
+            "pages": [
+              "internal/overview",
+              "internal/runbooks",
+              "internal/architecture-decisions"
             ]
           }
         ]
@@ -55,12 +68,14 @@
         "groups": [
           {
             "group": "API documentation",
+            "public": true,
             "pages": [
               "api-reference/introduction"
             ]
           },
           {
             "group": "Endpoint examples",
+            "public": true,
             "pages": [
               "api-reference/endpoint/get",
               "api-reference/endpoint/create",

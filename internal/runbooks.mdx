@@ -1,0 +1,85 @@
+---
+title: "Runbooks"
+description: "Operational procedures for common tasks"
+icon: "book"
+---
+
+## Deployment
+
+<Steps>
+<Step title="Pre-deployment checks">
+  Before deploying, verify:
+  - All CI checks pass on the target branch
+  - Staging environment has been smoke-tested
+  - No active incidents in the on-call channel
+</Step>
+
+<Step title="Deploy to staging">
+  ```bash
+  just deploy staging
+  ```
+
+  Wait for the deployment to complete and verify the health check:
+
+  ```bash
+  curl https://staging.example.com/health
+  ```
+</Step>
+
+<Step title="Deploy to production">
+  ```bash
+  just deploy production
+  ```
+
+  Monitor the deployment dashboard for errors during the rollout.
+</Step>
+</Steps>
+
+## Incident response
+
+<AccordionGroup>
+  <Accordion title="Service is returning 5xx errors" icon="triangle-exclamation">
+    1. Check the service logs: `just logs api-gateway`
+    2. Check database connectivity: `just db-status`
+    3. If the database is unresponsive, check the RDS dashboard
+    4. If the service is OOM, scale up: `just scale api-gateway 4`
+  </Accordion>
+
+  <Accordion title="Analysis jobs are stuck" icon="clock">
+    1. Check the job queue: `just queue-status`
+    2. Look for failed jobs: `just failed-jobs`
+    3. Retry failed jobs: `just retry-jobs`
+    4. If jobs keep failing, check the worker logs
+  </Accordion>
+
+  <Accordion title="Data pipeline lag" icon="gauge-high">
+    1. Check ingestion lag: `just pipeline-status`
+    2. If lag exceeds 30 minutes, check the collector service
+    3. Verify external data sources are responding
+    4. Scale up workers if needed: `just scale workers 8`
+  </Accordion>
+</AccordionGroup>
+
+## Database operations
+
+<Warning>
+  Always take a snapshot before performing any destructive database operation.
+</Warning>
+
+### Run a migration
+
+```bash
+just db-migrate production
+```
+
+### Rollback a migration
+
+```bash
+just db-rollback production
+```
+
+### Export data for debugging
+
+```bash
+just db-export --table campaigns --where "status='ACTIVE'" --output debug.csv
+```
